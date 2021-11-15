@@ -26,7 +26,7 @@ public static String def(final String a) {
 Transformed Code:
 ```java
 @Suspend
-public static void fetch(final String a, final TaskExecutor exe, final ContinuationFactory<String> continuation) {
+public static void fetch(final String a, final TaskExecutor exe, final Continuation<String> continuation) {
     abc(a, exe, new Main$fetch$continuation$1(exe, continuation);
 }
 
