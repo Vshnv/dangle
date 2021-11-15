@@ -44,7 +44,7 @@ public static void abc(final String a, final TaskExecutor exe, final Continuatio
 
 @Suspend
 public static void def(final String a, final TaskExecutor exe, final Continuation<String> continuation) {
-   exe.submit(continuation, "456def");
+   exe.submit(continuation, a + "456def");
 }
 
 private static class Main$fetch$continuation$1 implements Continuation<String> {
