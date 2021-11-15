@@ -6,44 +6,56 @@
 Original Code:
 ```java
 @Suspend
-public static void String fetch(final String a) {
+public static String fetch(final String a) {
   final String a = abc("test");
   final String b = def(a);
   return a + b;
 }
 
 @Suspend
-public static void String abc(final String a) {
-   return a + "123abc);
+public static String abc(final String a) {
+   return a + "123abc";
 }
 
 @Suspend
-public static void String def(final String a) {
-   return a + "123abc);
+public static String def(final String a) {
+   return a + "456def";
 }
 ```
 
 Transformed Code:
 ```java
 @Suspend
-public static void fetch(final String a, final TaskExecutor exe, final Continuation continuation) {
-  final String a = abc("test", exe, var1 -> {
-    final String b = def(var1.get("v1"), exe, var2 -> {
-        final String a_s = var2.get("v1");
-        final String b_S = var2.get("v2");
-        exe.submit(contuation.arg("v3",
-    });
-  });
+public static void fetch(final String a, final TaskExecutor exe, final ContinuationFactory<String> continuation) {
+    abc(a, exe, new Main$fetch$continuation$1(exe, continuation);
 }
 
 @Suspend
-public static void abc(final String a, final TaskExecutor exe, final Continuation continuation) {
-   exe.submit(continuation, 
-   continuation.execute(a + "123abc");
+public static void abc(final String a, final TaskExecutor exe, final Continuation<String> continuation) {
+   exe.submit(continuation, a + "123abc");
 }
 
 @Suspend
-public static void def(final String a, final TaskExecutor exe, final Continuation continuation) {
-   continuation.execute(a + "456def");
+public static void def(final String a, final TaskExecutor exe, final Continuation<String> continuation) {
+   exe.submit(continuation, "456def");
+}
+
+
+class Main$fetch$continuation$1 implements Continuation<String> {
+    private final TaskExecutor exe;
+    private final Continuation<String> resultContinuation;
+    
+    public void execute(final String a, final StateContainer container) {
+         def(a, exe, new Main$fetch$continuation$2(exe, resultContinuation, a));
+    }
+}
+
+class Main$fetch$continuation$2 implements Continuation<String> {
+    private final TaskExecutor exe;
+    private final Continuation<String> resultContinuation;
+    private final String a;
+    public void execute(final String b) {
+         exe.submit(resultContinuation, a + b);
+    }
 }
 ```
