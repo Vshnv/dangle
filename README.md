@@ -47,7 +47,7 @@ public static void def(final String a, final TaskExecutor exe, final Continuatio
    exe.submit(continuation, a + "456def");
 }
 
-private static class Main$fetch$continuation$1 implements Continuation<String> {
+private static final class Main$fetch$continuation$1 implements Continuation<String> {
     private final TaskExecutor exe;
     private final Continuation<String> resultContinuation;
     
@@ -61,7 +61,7 @@ private static class Main$fetch$continuation$1 implements Continuation<String> {
     }
 }
 
-private static class Main$fetch$continuation$2 implements Continuation<String> {
+private static final class Main$fetch$continuation$2 implements Continuation<String> {
     private final TaskExecutor exe;
     private final Continuation<String> resultContinuation;
     private final String a;
